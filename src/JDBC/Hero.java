@@ -120,9 +120,12 @@ public class Hero {
 
     public ResultSet getHero(int id) throws SQLException {
         Connection conn = new ConnectBDD().connectionToBDD();
+        String query = "SELECT * from hero WHERE id = ?";
         Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        PreparedStatement prepare = conn.prepareStatement(query);
+        prepare.setInt(1, id);
 
-        ResultSet result = state.executeQuery("SELECT * from hero WHERE id =" +id);
+        ResultSet result = prepare.executeQuery();
 
         return result;
     }
