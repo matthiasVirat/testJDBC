@@ -6,11 +6,17 @@ import java.sql.ResultSetMetaData;
 public class Main {
 
     public static void main(String[] args) {
-        Hero hero = new Hero();
+        Hero myHero = new Hero();
         try {
-            hero.getHeroes();
-            hero.getHere(2);
+//            hero.getHeroes();
 
+//            ResultSet result = myHero.getHero(2);
+//            myHero.displayHero(result);
+//            myHero.updtaeHero(2);
+
+            myHero.deleteHero(5);
+
+//            myHero.createHero();
         } catch (Exception e){
             e.printStackTrace();
         }
