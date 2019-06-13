@@ -118,7 +118,7 @@ public class Hero {
         }
     }
 
-    public ResultSet getHero(int id) throws SQLException {
+    public void getHero(int id) throws SQLException {
         Connection conn = new ConnectBDD().connectionToBDD();
         String query = "SELECT * from hero WHERE id = ?";
         Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -127,10 +127,7 @@ public class Hero {
 
         ResultSet result = prepare.executeQuery();
 
-        return result;
-    }
 
-    public void displayHero(ResultSet result) throws SQLException {
         while (result.next()){
             this.setId(result.getInt("id"));
             this.setName(result.getString("nom"));
@@ -145,7 +142,9 @@ public class Hero {
             this.setAttackMode(result.getString("moyenAttaque"));
             this.setShield(result.getString("bouclier"));
         }
-        
+    }
+
+    public void displayHero() throws SQLException {
         System.out.println("Voici le détail du Hero n° : " +this.id);
         System.out.println("Nom du hero : " + this.name);
         if (this.type.equals("G")){
@@ -196,8 +195,8 @@ public class Hero {
 
     }
 
-    public void updtaeHero(int id) throws SQLException {
-        Connection conn = new ConnectBDD().connectionToBDD();
+    public void updateHero(int id) throws SQLException {
+
         Scanner sc = new Scanner(System.in);
         boolean updated = false;
 
@@ -293,18 +292,25 @@ public class Hero {
             case "N":
                 break;
         }
-        String query = "UPDATE hero SET type = ?, nom = ?, image = ?, niveauVie = ?, niveauForce = ?, moyenAttaque = ?, ";
-        query += "bouclier = ? WHERE id = ?";
-        PreparedStatement prepare = conn.prepareStatement(query);
-        prepare.setString(1, newType);
-        prepare.setString(2, newName);
-        prepare.setString(3, newImage);
-        prepare.setInt(4, newLife);
-        prepare.setInt(5, newAttackLevel);
-        prepare.setString(6, newAttackMode);
-        prepare.setString(7, newShield);
-        prepare.setInt(8, id);
-        prepare.executeUpdate();
+        if (updated){
+            Connection conn = new ConnectBDD().connectionToBDD();
+            String query = "UPDATE hero SET type = ?, nom = ?, image = ?, niveauVie = ?, niveauForce = ?, moyenAttaque = ?, ";
+            query += "bouclier = ? WHERE id = ?";
+            PreparedStatement prepare = conn.prepareStatement(query);
+            prepare.setString(1, newType);
+            prepare.setString(2, newName);
+            prepare.setString(3, newImage);
+            prepare.setInt(4, newLife);
+            prepare.setInt(5, newAttackLevel);
+            prepare.setString(6, newAttackMode);
+            prepare.setString(7, newShield);
+            prepare.setInt(8, id);
+            prepare.executeUpdate();
+            System.out.println("Mise à jour OK");
+        } else {
+            System.out.println("Vous n'avez apporté aucune modification, pas de mise à jour.");
+        }
+
     }
 
     public void deleteHero(int id) throws SQLException {

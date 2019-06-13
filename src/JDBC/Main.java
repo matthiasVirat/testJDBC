@@ -8,11 +8,11 @@ public class Main {
     public static void main(String[] args) {
         Hero myHero = new Hero();
         try {
-//            myHero.getHeroes();
+            myHero.getHeroes();
 
-            ResultSet result = myHero.getHero(2);
-            myHero.displayHero(result);
-            myHero.updtaeHero(2);
+            myHero.getHero(2);
+            myHero.displayHero();
+//            myHero.updateHero(myHero.id);
 
 //            myHero.deleteHero(5);
 
