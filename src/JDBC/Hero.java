@@ -197,97 +197,114 @@ public class Hero {
     }
 
     public void updtaeHero(int id) throws SQLException {
-        ResultSet result = getHero(id);
-        result.first();
+        Connection conn = new ConnectBDD().connectionToBDD();
         Scanner sc = new Scanner(System.in);
+        boolean updated = false;
 
+        String newType = this.type;
         System.out.println("Voulez-vous modifier le type (O : oui, N : non) ?");
         String updateType = sc.nextLine();
         switch (updateType) {
             case "O":
                 System.out.println("Entrer le nouveau type (G : guerrier, M : magicien) :");
-                String newType = sc.nextLine();
-                result.updateString("type", newType);
+                newType = sc.nextLine();
+                updated = true;
                 break;
             case "N":
                 break;
         }
 
+        String newName = this.name;
         System.out.println("Voulez-vous modifier le nom (O : oui, N : non) ?");
         String updateName = sc.nextLine();
         switch (updateName) {
             case "O":
                 System.out.println("Entrer le nouveau nom :");
-                String newName = sc.nextLine();
-                result.updateString("nom", newName);
+                newName = sc.nextLine();
+                updated = true;
                 break;
             case "N":
                 break;
         }
 
+        String newImage = this.image;
         System.out.println("Voulez-vous modifier l'image (O : oui, N : non) ?");
         String updateImage = sc.nextLine();
         switch (updateImage) {
             case "O":
                 System.out.println("Entrer la nouvelle url de l'image :");
-                String newImage = sc.nextLine();
-                result.updateString("image", newImage);
+                newImage = sc.nextLine();
+                updated = true;
                 break;
             case "N":
                 break;
         }
 
+        int newLife = this.life;
         System.out.println("Voulez-vous modifier le niveau de vie (O : oui, N : non) ?");
         String updateLife = sc.nextLine();
         switch (updateLife) {
             case "O":
                 System.out.println("Entrer le nouveau niveau de vie :");
-                int newLife = sc.nextInt();
+                newLife = sc.nextInt();
                 sc.nextLine();
-                result.updateInt("niveauVie", newLife);
+                updated = true;
                 break;
             case "N":
                 break;
         }
 
+        int newAttackLevel = this.attackLevel;
         System.out.println("Voulez-vous modifier le niveau d'attaque (O : oui, N : non) ?");
         String updateAttackLevel = sc.nextLine();
         switch (updateAttackLevel) {
             case "O":
                 System.out.println("Entrer le nouveau niveau d'attaque :");
-                int newAttackLevel = sc.nextInt();
+                newAttackLevel = sc.nextInt();
                 sc.nextLine();
-                result.updateInt("niveauForce", newAttackLevel);
+                updated = true;
                 break;
             case "N":
                 break;
         }
 
+        String newAttackMode = this.attackMode;
         System.out.println("Voulez-vous modifier l'arme (O : oui, N : non) ?");
         String updateAttackMode = sc.nextLine();
         switch (updateAttackMode) {
             case "O":
                 System.out.println("Entrer la nouvelle arme :");
-                String newAttackMode = sc.nextLine();
-                result.updateString("moyenAtaque", newAttackMode);
+                newAttackMode = sc.nextLine();
+                updated = true;
                 break;
             case "N":
                 break;
         }
 
+        String newShield = this.shield;
         System.out.println("Voulez-vous modifier le bouclier (O : oui, N : non) ?");
         String updateShield = sc.nextLine();
         switch (updateShield) {
             case "O":
                 System.out.println("Entrer le nouveau bouclier :");
-                String newShield = sc.nextLine();
-                result.updateString("bouclier", newShield);
+                newShield = sc.nextLine();
+                updated = true;
                 break;
             case "N":
                 break;
         }
-
-        result.updateRow();
+        String query = "UPDATE hero SET type = ?, nom = ?, image = ?, niveauVie = ?, niveauForce = ?, moyenAttaque = ?, ";
+        query += "bouclier = ? WHERE id = ?";
+        PreparedStatement prepare = conn.prepareStatement(query);
+        prepare.setString(1, newType);
+        prepare.setString(2, newName);
+        prepare.setString(3, newImage);
+        prepare.setInt(4, newLife);
+        prepare.setInt(5, newAttackLevel);
+        prepare.setString(6, newAttackMode);
+        prepare.setString(7, newShield);
+        prepare.setInt(8, id);
+        prepare.executeUpdate();
     }
 
     public void deleteHero(int id) throws SQLException {

@@ -12,7 +12,7 @@ public class Main {
 
             ResultSet result = myHero.getHero(2);
             myHero.displayHero(result);
-//            myHero.updtaeHero(2);
+            myHero.updtaeHero(2);
 
 //            myHero.deleteHero(5);
 
